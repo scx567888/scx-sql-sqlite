@@ -1,5 +1,6 @@
 package dev.scx.sql.sqlite;
 
+import dev.scx.sql.JDBCConnectionInfo;
 import dev.scx.sql.dialect.Dialect;
 import dev.scx.sql.schema.*;
 import org.sqlite.JDBC;
@@ -47,9 +48,9 @@ public final class SQLiteDialect implements Dialect {
     }
 
     @Override
-    public DataSource createDataSource(String url, String username, String password, String... parameters) {
+    public DataSource createDataSource(JDBCConnectionInfo connectionInfo) {
         var sqLiteDataSource = new SQLiteDataSource();
-        sqLiteDataSource.setUrl(url);
+        sqLiteDataSource.setUrl(connectionInfo.url());
         return sqLiteDataSource;
     }
 

@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import java.sql.SQLException;
 import java.util.List;
 
-import static dev.scx.sql.metadata.DatabaseMetaDataSupport.*;
+import static dev.scx.sql.metadata.DatabaseMetadataReader.*;
 import static dev.scx.sql.sqlite.test.SQLClientForSQLiteTest.dataSource;
 
 public class MetaDataForSQLiteTest {
@@ -24,7 +24,7 @@ public class MetaDataForSQLiteTest {
         try (var con = dataSource.getConnection()) {
             var metaData = con.getMetaData();
 
-            var catalogMetadataList = getCatalogMetadataList(metaData);
+            var catalogMetadataList = readCatalogMetadataList(metaData);
             // 如果没有我们使用虚拟层级
             if (catalogMetadataList.isEmpty()) {
                 catalogMetadataList = List.of(new CatalogMetadata(null));
@@ -36,7 +36,7 @@ public class MetaDataForSQLiteTest {
 
                 List<SchemaMetadata> schemaMetadataList = List.of();
                 try {
-                    schemaMetadataList = getSchemaMetadataList(metaData, catalogMetadata.TABLE_CAT(), null);
+                    schemaMetadataList = readSchemaMetadataList(metaData, catalogMetadata.TABLE_CAT(), null);
                 } catch (SQLException _) {
                     // 忽略错误
                 }
@@ -50,7 +50,7 @@ public class MetaDataForSQLiteTest {
                     System.out.println("    " + schemaMetadata.TABLE_SCHEM() + " : ");
                     System.out.println("    {");
 
-                    var tableMetadataList = getTableMetadataList(metaData, schemaMetadata.TABLE_CATALOG(), schemaMetadata.TABLE_SCHEM(), null);
+                    var tableMetadataList = readTableMetadataList(metaData, schemaMetadata.TABLE_CATALOG(), schemaMetadata.TABLE_SCHEM(), null);
 
                     for (var tableMetadata : tableMetadataList) {
                         var table = loadTable(metaData, tableMetadata.TABLE_CAT(), tableMetadata.TABLE_SCHEM(), tableMetadata.TABLE_NAME(), dialect);
