@@ -110,7 +110,7 @@
     <properties>
 
         <!-- *********************** 以下为依赖包版本 *********************** -->
-        <scx-sql.version>0.1.0</scx-sql.version>
+        <scx-sql.version>0.2.0</scx-sql.version>
         <sqlite-jdbc.version>3.48.0.0</sqlite-jdbc.version>
         <scx-jdbc-spy.version>0.3.0</scx-jdbc-spy.version>
         <scx-logging.version>0.0.1</scx-logging.version>
